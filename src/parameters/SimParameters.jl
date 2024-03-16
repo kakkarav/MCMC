@@ -35,8 +35,6 @@ mutable struct SimParams
   num_of_sweeps::Int64
   # num of measurements
   num_of_measure::Int64
-  #number of relative sweeps between Villain and loop model
-  num_of_relative_sweeps::Int64
   # rng seed
   seed::Int64
   # number of bins

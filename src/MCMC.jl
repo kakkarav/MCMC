@@ -5,13 +5,11 @@ export Sim
 include("parameters/Defs.jl")
 include("parameters/SimParameters.jl")
 
-include("helpers.jl")
 
 using .Defs
 using .SimParameters
 
 using Statistics
-using JSON
 using Random
 using Base.Cartesian
 
@@ -29,6 +27,7 @@ include("updates/Update_J.jl")
 include("updates/Update_fluctuate.jl")
 include("updates/Update_binding.jl")
 include("updates/Update_custom.jl")
+
 
 struct Sim
   lat::Lattice
@@ -120,7 +119,7 @@ end
 
 function update_binding!(sim::Sim)
   #we update the villain part by sweeping through all bonds
-  for dir = 1:NDIMS, site in eachindex(sim.lat.angle)
+  for dir in 1:NDIMS, site in eachindex(sim.lat.angle)
     location = Tuple(sim.lattice_map[site])
     metro_binding!(sim.lat, sim.sim_params, sim.disorder, sim.rng, location, dir)
   end
@@ -128,12 +127,18 @@ function update_binding!(sim::Sim)
 end
 
 
+# function update_all!(sim::Sim)
+#   for _ in 1:sim.sim_params.num_of_sweeps
+#     update_villain!(sim)
+#     update_binding!(sim)
+#     update_worm!(sim)
+#   end
+#   return nothing
+# end
 function update_all!(sim::Sim)
-  for _ = 1:sim.sim_params.num_of_sweeps
-    update_villain!(sim)
-    update_binding!(sim)
-    update_worm!(sim)
-  end
+  update_villain!(sim)
+  update_binding!(sim)
+  update_worm!(sim)
   return nothing
 end
 
@@ -149,7 +154,9 @@ end
 function run!(sim::Sim)
   counter = 0
   while counter < sim.sim_params.num_of_measure
-    update_all!(sim)
+    for _ = 1:sim.sim_params.num_of_sweeps
+      update_all!(sim)
+    end
     measure_correlator!(sim.measurements, sim)
     if (sim.lat.head == sim.lat.tail)
       measure_all!(sim.measurements, sim)
@@ -157,5 +164,7 @@ function run!(sim::Sim)
     end
   end
 end
+
+include("helpers.jl")
 
 end

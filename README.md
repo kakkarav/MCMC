@@ -24,7 +24,6 @@ This example create a lattice of size 8x8x8 with 1000 measurements and 10000 the
 The parameters are stored in a dictionary and the simulation is run as follows:
 ```julia
 using MCMC
-using MCMC: SimParameters
 
 params_dict = Dict("lambda1" => 0.2,
   "lambda2" => 0.2,
@@ -42,11 +41,11 @@ params_dict = Dict("lambda1" => 0.2,
   "Lt" => 8,
   "num_of_thermal" => 10000,
   "num_of_measure" => 1000,
-  "num_of_sweeps" => 3,
+  "num_of_sweeps" => 1,
   "nbin" => 1,
 )
 
-params = SimParameters.SimParams(params_dict)
+params = MCMC.SimParameters.SimParams(params_dict)
 sim = MCMC.Sim(params)
 MCMC.thermalize!(sim)
 MCMC.run!(sim)

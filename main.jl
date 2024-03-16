@@ -1,16 +1,19 @@
 include("src/MCMC.jl")
-
 using .MCMC
-using .MCMC: SimParameters
 
 function main(params_dict::Dict{String,Real})
-  params = SimParameters.SimParams(params_dict)
+  params = MCMC.SimParameters.SimParams(params_dict)
   sim = MCMC.Sim(params)
+  println("Thermalizing...")
   MCMC.thermalize!(sim)
-  MCMC.PrintHeader(params_dict)
+  println("Running...")
   MCMC.run!(sim)
+
+  #Print out output
+  MCMC.printHeader(params_dict)
+  MCMC.printOutput(sim)
   return MCMC.get_measurements(sim.measurements)
 end
 
 input_params = MCMC.FileToDict(ARGS[1])
-main(input_params)
+data = main(input_params)

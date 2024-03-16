@@ -28,7 +28,7 @@ function energy_local_villain(
     dir::Int64,
 )
     """
-    Compute Energy change from the Villain part (no binding)
+    Compute the energy difference from the Villain part (no binding)
     """
     nn = hop(location, dir, 1, size(lat.angle))
     angle = lat.angle

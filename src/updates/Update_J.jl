@@ -177,12 +177,10 @@ function shift_worm!(
   return nothing
 end
 
-"""
-    jump_worm(WormData,Lattice)
-
-jump of worm's head and tail
-"""
 function jump_worm!(worm_data::WormMoveData, lat::Lattice)
+  """
+  jump of worm's head and tail
+  """
   # new_site=ind2sub(size(lat.angle),rand(worm_data.rng,1:length(lat.angle)))
   new_site = Tuple(CartesianIndices(lat.angle)[rand(worm_data.rng, 1:length(lat.angle))])
   if new_site != lat.head

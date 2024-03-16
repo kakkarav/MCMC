@@ -1,9 +1,11 @@
+using JSON
+
 function OutputToString(
     meas::Dict{String,Tuple{Any,Any}},
     obs::Vector{Tuple{String,String}},
 )
     """
-    Convert the raw measurment (dictionary) to a string
+    Convert the raw measurments (dictionary) into strings
     """
     data = String[]
     for pair in obs
@@ -52,12 +54,13 @@ function FileToDict(file)
         "seed",
         "bond_type",
         "L",
-        "num_of_thermal'",
+        "num_of_thermal",
         "num_of_measure",
         "num_of_sweeps",
         "num_of_relative_sweeps",
         "dual_lambda",
         "nbin",
+        "dual_L",
     ]
 
     params = Dict{String,Real}()
@@ -78,7 +81,13 @@ function FileToDict(file)
         params["lambda2"] = params["lambda1"]
     end
 
-    params["Lt"] = Int64(params["Lt_ratio"] * (params["L"]^params["Lt_power"]))
+
+    if params["dual_L"] == 1
+        params["Lt"] = params["L"]
+    else
+        params["Lt"] = Int64(params["Lt_ratio"] * (params["L"]^params["Lt_power"]))
+    end
+
     to_delete = ["Lt_ratio", "Lt_power", "dual_lambda", "dual_L"]
 
     for key in to_delete
@@ -89,8 +98,10 @@ function FileToDict(file)
 end
 
 
-function PrintHeader(sim_dict::Dict{String,Real})
-    nbin = sim_dict["nbin"]
+function printHeader(sim_dict::Dict{String,Real})
+    """
+    Print out the headers for the raw data in the CSV format
+    """
     #All Observables
     obs = [
         ("Energy", "mean"),
@@ -124,4 +135,42 @@ function PrintHeader(sim_dict::Dict{String,Real})
         push!(header, string(ob[1], "_", ob[2], "_sq"))
     end
     println(join(header, ","))
+end
+
+
+function printOutput(sim::Sim)
+    """
+    Print out the raw data to STDOUT in the CSV format
+    The data aligns with the header from printHeader function
+    """
+    obs = [
+        ("Energy", "mean"),
+        ("Complex Hall Conductivity", "real"),
+        ("Complex Hall Conductivity", "imag"),
+        ("Stiffness Loop All", "mean"),
+        ("Current Time Loop", "mean"),
+        ("Current Space Loop", "mean"),
+        ("Current Loop FT", "real"),
+        ("Current Loop FT", "imag"),
+        ("Compressibility Loop", "mean"),
+        ("Green Loop Time", "mean"),
+        ("Green Loop Space", "mean"),
+        ("ZRatio", "mean"),
+        ("Green Villain Time", "real"),
+        ("Green Villain Time", "imag"),
+        ("Green Villain Space", "real"),
+        ("Green Villain Space", "imag"),
+        ("Compressibility Villain", "mean"),
+        ("Current Time Villain", "mean"),
+        ("Current Space Villain", "mean"),
+        ("Stiffness Villain", "mean"),
+        ("Stiffness Villain FT", "mean"),
+        ("Current Villain FT", "real"),
+        ("Current Villain FT", "imag"),
+        ("Magnitization", "mean"),
+    ]
+    data = MCMC.get_measurements(sim.measurements)
+    sample_num = sim.measurements.measurements[4].obs_data.c_num_of_measure
+    print(json(json(sample_num)), ",")
+    println(OutputToString(data, obs))
 end

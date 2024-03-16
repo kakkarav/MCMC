@@ -25,7 +25,6 @@ params_dict = Dict("lambda1" => 0.2,
 params = SimParameters.SimParams(params_dict)
 sim = MCMC.Sim(params)
 MCMC.thermalize!(sim)
-MCMC.PrintHeader(params_dict)
 MCMC.run!(sim)
 
 include("Divergence.jl")
