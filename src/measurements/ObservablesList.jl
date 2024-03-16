@@ -31,7 +31,6 @@ function measure_obs!(obs_hall_cond::ObsHallConductivity, sim)
         sin(pi / sim.sim_params.Lt) *
         exp(-im * pi / sim.sim_params.Lt) *
         sim.sim_params.eta / (2 * pi)
-    # current_coupled = dot(obs_hall_cond.coupled_J,sim.fourier[2])*2*im*sin(pi/sim.sim_params.L)/(2*pi)
     current_loop = conj(dot(obs_hall_cond.loop_J, sim.fourier[2]))
     correlation =
         (current_vill - current_coupled) * current_loop / sim.sim_params.L^(NDIMS - 1) /
@@ -49,7 +48,6 @@ function cal_current_villain_list(sim, dir::Int64, time::Int64)
         for j = 1:size(sim.lat.angle, 2)
             location = (i, j, time)
             nn = hop(location, dir, 1, size(sim.lat.angle))
-            # fluctuate = location[dir]==1 ? sim.lat.fluctuate_lattice[dir] : 0.0
             fluctuate = sim.lat.fluctuate_lattice[dir] / sim.sim_params.Lt
             current +=
                 sim.disorder.bond_disorder_villain[i, j, dir] * (
@@ -229,7 +227,6 @@ function measure_obs!(obs_green::ObsGreenVillainTime, sim)
 end
 
 ###########################################################################################################
-# TODO: find the separate green function for C(r,0) and C(r,t)
 #single particle Green's function for villain part
 struct ObsGreenVillainSpace <: Obs
     obs_data::ObsData{Array{Complex{Float64},1}}
@@ -274,7 +271,6 @@ function cal_mag_villain_list(sim, time::Int64)
     end
     return total_mag
 end
-
 
 
 ###########################################################################################################

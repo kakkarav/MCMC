@@ -20,12 +20,12 @@ function ObsDataScalar(name::String, num_of_measure::Int64)
   ObsData{Float64}(name, 0.0, 0.0, 0, 0)
 end
 
-#fixed size array, e.g. correlation function
+#fixed size real array, e.g. correlation function
 function ObsDataArray(name::String, num_of_measure::Int64, dims::NTuple{D,Int64}) where {D}
   ObsData{Array{Float64,D}}(name, zeros(dims), zeros(dims), 0, 0)
 end
 
-#fixed size array, e.g. correlation function
+#fixed size complex array, i.e. Fourier transform of stiffness
 function ObsDataArrayComplex(
   name::String,
   num_of_measure::Int64,
@@ -40,23 +40,23 @@ function ObsDataArrayComplex(
   )
 end
 
-#extensive list, e.g. time series
+#Extensible real list
 function ObsDataList(name::String, num_of_measure::Int64)
   ObsData{Array{Float64,1}}(name, zeros(num_of_measure), zeros(num_of_measure), 0, 0)
 end
 
-#extensive list, e.g. time series
+#Extensible complex list
 function ObsDataComplex(name::String, num_of_measure::Int64)
   ObsData{Complex{Float64}}(name, 0.0 + im * 0.0, 0.0 + im * 0.0, 0, 0)
 end
 
-#extensive list, e.g. time series
+#Extensible list for quahtum hall conductivity
 function ObsDataHall(name::String, num_of_measure::Int64)
   ObsData{Array{Float64,1}}(name, zeros(num_of_measure), zeros(num_of_measure), 0, 0)
 end
 
 
-# Take Measurement ###################################################################################################################################################################
+########### Take Measurement ########################################################################################################################################################
 
 
 #scalar
@@ -68,7 +68,7 @@ function take_measurement!(obs_data::ObsData{T}, data::T) where {T<:Number}
 end
 
 
-#data is a list like green function
+#list, e.g. like green function
 function take_measurement!(obs_data::ObsData{Array{T,D}}, data::Array{T,D}) where {T,D}
   obs_data.c_num_of_measure += 1
   for i in eachindex(data)
@@ -84,6 +84,7 @@ function clear_data!(measurement::T) where {T<:Obs}
   measurement.obs_data.c_num_of_measure = 0
   return nothing
 end
+
 ##############################################################################################################################################################################
 
 # Measurements

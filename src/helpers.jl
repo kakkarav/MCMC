@@ -2,6 +2,9 @@ function OutputToString(
     meas::Dict{String,Tuple{Any,Any}},
     obs::Vector{Tuple{String,String}},
 )
+    """
+    Convert the raw measurment (dictionary) to a string
+    """
     data = String[]
     for pair in obs
         push!(data, parseObs(meas, pair...))
@@ -26,6 +29,9 @@ function parseObs(meas::Dict{String,Any}, name::String, type="mean")
 end
 
 function FileToDict(file)
+    """
+    Parse the parameter option file into a dictionary
+    """
     #float parameters
     floats = [
         "lambda1",
@@ -85,6 +91,7 @@ end
 
 function PrintHeader(sim_dict::Dict{String,Real})
     nbin = sim_dict["nbin"]
+    #All Observables
     obs = [
         ("Energy", "mean"),
         ("Complex Hall Conductivity", "real"),

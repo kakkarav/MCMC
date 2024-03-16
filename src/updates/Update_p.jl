@@ -19,7 +19,6 @@ function metro_p!(
     return nothing
 end
 
-#Energy change from the Villain part (no binding)
 function energy_local_villain(
     lat::Lattice,
     params::SimParams,
@@ -28,6 +27,9 @@ function energy_local_villain(
     p_change::Int64,
     dir::Int64,
 )
+    """
+    Compute Energy change from the Villain part (no binding)
+    """
     nn = hop(location, dir, 1, size(lat.angle))
     angle = lat.angle
     # fluctuate = location[dir]==1 ? lat.fluctuate_lattice[dir] : 0.0

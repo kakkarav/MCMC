@@ -87,6 +87,7 @@ function Sim(sim_params::SimParams)
 end
 
 function move_worm_head!(sim::Sim)
+  """Implement the classical worm algorithm"""
   closed = (sim.lat.head == sim.lat.tail)
   if closed
     jump_or_shift = rand(sim.rng)
@@ -105,7 +106,7 @@ function update_worm!(sim::Sim)
 end
 
 function update_villain!(sim::Sim)
-  #we update the villain part by sweeping through all bonds
+  """Update all Villain variables"""
   @inbounds for site in eachindex(sim.lat.angle)
     location = Tuple(sim.lattice_map[site])
     metro_angle!(sim.lat, sim.sim_params, sim.disorder, sim.rng, location)
@@ -137,6 +138,7 @@ function update_all!(sim::Sim)
 end
 
 function thermalize!(sim::Sim)
+  """Burn in or thermalization"""
   for _ = 1:sim.sim_params.num_of_thermal
     update_all!(sim)
   end

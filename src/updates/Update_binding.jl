@@ -1,5 +1,3 @@
-#this is a special update that decide to update P and current variable at the same time.
-#by changing P, we create a loop in curl variable and a loop in current variable in the same/opposite direction
 function metro_binding!(
     lat::Lattice,
     params::SimParams,
@@ -8,7 +6,11 @@ function metro_binding!(
     location::NTuple{NDIMS,Int64},
     dir::Int64,
 )
-    #propose an update 
+    """
+    this is a special update that update P and current J simultaneously.
+    by changing P, we create a loop in curl variable. 
+    """
+    #propose an update the current and the gauge field simultaneously 
     random_move = rand(rng, binding_range)
     p_change = mod1(random_move, 3) - 2
     loop_change = fld1(random_move, 3) - 2

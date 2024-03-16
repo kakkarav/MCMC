@@ -9,10 +9,11 @@ function energy_coupling_old(
     loop_change::Int64,
     d::Int64,
 )
-    #The update I did below here is a bit obscure, but can be explain by drawing a picture. Here I assume that the relative vector we between the p_lattice (villain model) and the dual lattice(loop model) is
-    # r_loop - r_villain  = (+x,+y,+z), so I pick the dual lattice to be offset from the villain lattice in the positive direction.
-    #Below I did two jumps because of the above definition of relative direction of the two lattices
-    #location is in the Villain coordinate
+    """
+    Calculate the interaction enegy between the loop and the curl variables
+    
+    The update is a bit obscure, but can be explain by drawing a picture. Here I assume that the relative vector we between the p_lattice (villain model) and the dual lattice(loop model) is r_loop - r_villain  = (+x,+y,+z)/2, where the dual lattice to be offset from the villain lattice in the positive direction.Below I did two jumps because of the above definition of relative direction of the two lattices location is in the Villain coordinate
+    """
 
     d_1 = d                # z
     d_2 = mod1(d + 1, NDIMS)   # x
@@ -78,7 +79,6 @@ function energy_coupling_old(
 
     elseif (d == 1)
         #d=x,d_2=y,d_3=z
-
         #\delta curl has different sign for each site
         # jump to z -- > z-1
         jump_1 = hop(loop_location, 3, 2, size(lat.angle))
@@ -129,7 +129,6 @@ function energy_coupling_old(
 
     elseif (d == 2)
         #d=y,d_2=z,d_3=x
-
         #\delta curl has different sign for each site
         # jump to z -- > z-1
         jump_1 = hop(loop_location, 3, 2, size(lat.angle))
@@ -183,7 +182,6 @@ function energy_coupling_old(
 end
 
 
-#the function calculate the energy from the disordered chemical potential
 function energy_loop_disorder(
     lat::Lattice,
     sim_params::SimParams,
@@ -192,9 +190,12 @@ function energy_loop_disorder(
     loop_change::Int64,
     d::Int64,
 )
+    """
+    the function calculate the energy of the loop part from the disordered chemical potential
+    """
     E = 0.0
     charge = loop_change
-    if (d == 1) #if a loop is not in the XY plane
+    if (d == 1) #a loop is not in the XY plane
         #if the loop is in the XY plane, there is no energy change from chemical potential
         #Else, a loop will have two counterpropagating currents in the time direction. Each of them is at different locations and experience different disorders.
 
@@ -226,9 +227,10 @@ end
 
 
 
-#update curl lattice
-#change in P creates a loop in variable curl(P)
 function update_c!(lat::Lattice, location::NTuple{NDIMS,Int64}, p_change::Int64, d::Int64)
+    """
+    Update the P variable and create a loop in the curl(P) variable
+    """
     d_1 = d                # x
     d_2 = mod1(d + 1, NDIMS)   # y
     d_3 = mod1(d + 2, NDIMS)   # z
@@ -255,13 +257,15 @@ function update_c!(lat::Lattice, location::NTuple{NDIMS,Int64}, p_change::Int64,
     return nothing
 end
 
-#this update create a loop in J variable
 function update_binding!(
     lat::Lattice,
     location::NTuple{NDIMS,Int64},
     loop_change::Int64,
     d::Int64,
 )
+    """
+    this update create a loop in J variable
+    """
     d_1 = d                # x
     d_2 = mod1(d + 1, NDIMS)   # y
     d_3 = mod1(d + 2, NDIMS)   # z

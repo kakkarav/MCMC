@@ -1,4 +1,3 @@
-#update the fluctuating angle of Villain model
 function metro_fluctuate!(
     lattice::Lattice,
     params::SimParams,
@@ -6,6 +5,9 @@ function metro_fluctuate!(
     rng::Random.Xoshiro,
     dir::Int64,
 )
+    """
+    update the fluctuating angle of Villain model
+    """
     angle_change = 2.0 * (rand(rng) - 0.5) * params.delta_theta
     #There is no binding/ coupling energy related to the update of teh angle variable
     dE =
@@ -25,6 +27,9 @@ function Energy_local_fluctuate(
     dir::Int64,
     delta_angle::Float64,
 )
+    """
+    Energy of the fluctuating angle of Villain model 
+    """
     E_tot = 0.0
     new_fluctuate = update_angle(lattice.fluctuate_lattice[dir], delta_angle) / params.L
     for site in eachindex(lattice.angle)

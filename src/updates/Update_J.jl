@@ -10,11 +10,11 @@ struct WormMoveData
   end
 end
 
-# """
-# calc_loop(m_sqr,lambda):Computes bond weight ratios for a given patameter up to order MAX_BOND
-# """
 
 function calc_ratios(sim_params::SimParams)
+  """
+  Return the bond weight ratios for a given patameter up to order MAX_BOND
+  """
 
   weights_inc_with_p = Array{Array{Float64,1}}(undef, 2 .* MAX_P + 1)
   weights_dec_with_p = Array{Array{Float64,1}}(undef, 2 .* MAX_P + 1)
@@ -40,10 +40,7 @@ function calc_ratios(sim_params::SimParams)
 
   return weights_inc_with_p, weights_dec_with_p, weights_self_inc, weights_self_dec
 end
-#
-# """
-# update_energy:update the energy of the lattice after the worm moves
-# """
+
 
 function update_energy!(
   lat::Lattice,
@@ -53,12 +50,15 @@ function update_energy!(
   lr::Int64,
   location::NTuple{NDIMS,Int64},
 )
+  """
+  update_energy:update the energy of the lattice after the worm moves
+  """
   nn = lr == 1 ? location : hop(location, dir, 2, size(lat.angle))
   bond_val = lat.current[nn..., dir] #current variable
   c_val = lat.curl_lattice[nn..., dir] #curl variable
-  effective_bond = bond_val - params.eta * c_val #
+  effective_bond = bond_val - params.eta * c_val
   dE = 0.0
-  ## Binding
+  # Binding
   if lr == 1
     dE1 = (effective_bond + 1)^2.0 - (effective_bond)^2.0
   elseif lr == 2
@@ -89,25 +89,21 @@ function update_energy!(
     dE += dE3
   end
 
-  #return nothing
   return dE
 end
 
 
 
 
-"""
-    shift_worm(WormData,Lattice)
-
-single shift move of worm's head
-"""
 function shift_worm!(
   worm_data::WormMoveData,
   lat::Lattice,
   params::SimParams,
   disorder::Disorder,
 )
-
+  """
+  single shift move of worm's head
+  """
   # draw next move
   move_rnd = rand(worm_data.rng, worm_range)
   # cartesian direction

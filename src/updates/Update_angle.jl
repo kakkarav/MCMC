@@ -35,14 +35,13 @@ function Energy_local_angle(
   #by changing an angle we change NDIMS*2 bonds states and energy, so the energy change calculation is looped over them
   E = 0.0
   fluataute = 0.0
-  #for bonds in the XY plane
-  #disordered bonds are store in Disorder. Due to time time translatio of quenched disorder, we only store bonds of one time slice
+  #For bonds in the XY plane
+  #Disordered bonds are store in Disorder.
   for dir = 1:2
     for lc = 1:2
       #we hop here in order to calculate \omega_{\mu} = phi(r+\mu) - phi(r)
       nn = hop(location, dir, lc, size(lattice.angle))
       if lc == 1
-        # fluctuate = location[dir]==1 ? lattice.fluctuate_lattice[dir] : 0.0
         fluctuate = lattice.fluctuate_lattice[dir] / params.L
         E +=
           disorder.bond_disorder_villain[location[1], location[2], dir] *
@@ -51,7 +50,6 @@ function Energy_local_angle(
             2 * pi * lattice.p_lattice[location..., dir] - fluctuate
           )^2.0
       elseif lc == 2
-        # fluctuate = nn[dir]==1 ? lattice.fluctuate_lattice[dir] : 0.0
         fluctuate = lattice.fluctuate_lattice[dir] / params.L
         E +=
           disorder.bond_disorder_villain[nn[1], nn[2], dir] *
@@ -65,10 +63,9 @@ function Energy_local_angle(
 
   #for bond in the time direction (dir==3)
   for lc = 1:2
-    #we hop here in order to calculaet \omega_{\mu} = phi(r+\mu) - phi(r)
+    #we hop here in order to calculate \omega_{\mu} = phi(r+\mu) - phi(r)
     nn = hop(location, NDIMS, lc, size(lattice.angle))
     if lc == 1
-      # fluctuate = location[3]==1 ? lattice.fluctuate_lattice[3] : 0.0
       fluctuate = lattice.fluctuate_lattice[3] / params.Lt
       E +=
         params.lambda1 *
@@ -77,7 +74,6 @@ function Energy_local_angle(
           2 * pi * lattice.p_lattice[location..., NDIMS] - fluctuate
         )^2.0
     elseif lc == 2
-      # fluctuate = nn[3]==1 ? lattice.fluctuate_lattice[3] : 0.0
       fluctuate = lattice.fluctuate_lattice[3] / params.Lt
       E +=
         params.lambda1 *

@@ -1,4 +1,4 @@
-#Count the number of closed looped# Measure partition function ratio
+# Measure the number of closed looped or the partition function ratio
 struct ObsZRatio <: Obs
     obs_data::ObsData{Float64}
     ObsZRatio(num_of_measure) = new(ObsDataScalar("ZRatio", num_of_measure))
