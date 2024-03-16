@@ -1,0 +1,9 @@
+name = "MCMC"
+uuid = "2a0684f4-e97a-4f7a-bafd-8f1e45fd74a5"
+authors = ["best "]
+version = "0.1.0"
+
+[deps]
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
