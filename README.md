@@ -25,8 +25,8 @@ The parameters are stored in a dictionary and the simulation is run as follows:
 ```julia
 using MCMC
 
-params_dict = Dict("lambda1" => 0.2,
-  "lambda2" => 0.2,
+params_dict = Dict("lambda1" => 0.23,
+  "lambda2" => 0.23,
   "lambda3" => 10000000000000.0,
   "eta" => 0.66,
   "delta_theta" => pi * 0.7,
@@ -37,10 +37,10 @@ params_dict = Dict("lambda1" => 0.2,
   "bond_disorder_villain" => 0.0,
   "bond_disorder_loop" => 0.0,
   "seed" => 2,
-  "L" => 8,
-  "Lt" => 8,
-  "num_of_thermal" => 10000,
-  "num_of_measure" => 1000,
+  "L" => 12,
+  "Lt" => 12,
+  "num_of_thermal" => 100000,
+  "num_of_measure" => 10000,
   "num_of_sweeps" => 1,
   "nbin" => 1,
 )
@@ -49,11 +49,11 @@ params = MCMC.SimParameters.SimParams(params_dict)
 sim = MCMC.Sim(params)
 MCMC.thermalize!(sim)
 MCMC.run!(sim)
-# the raw data is stored as a dictionary
-data = MCMC.get_measurements(sim.measurements)
+# the raw data is return as a dictionary
+println(MCMC.get_measurements(sim.measurements))
 ```
 
-Alternatively, the code can be run by taking an options file from the project root directory with the help of the parser function:
+Alternatively, the code can be run by taking an option file with the help of the parser function:
 ```julia
 julia --project=. main.jl test.opts
 ```

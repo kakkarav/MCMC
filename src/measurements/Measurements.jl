@@ -13,7 +13,7 @@ mutable struct ObsData{T}
   c_num_of_measure::Int64
 end
 
-####################################################################################################################################################################
+########## Data type ##########################################################################################################################################################
 
 #scalar
 function ObsDataScalar(name::String, num_of_measure::Int64)
@@ -85,9 +85,7 @@ function clear_data!(measurement::T) where {T<:Obs}
   return nothing
 end
 
-##############################################################################################################################################################################
-
-# Measurements
+########## Measurement methods ###################################################################################################################################################################
 
 mutable struct MeasurementArray
   measurements::Array{Any,1}
@@ -110,6 +108,9 @@ function reset_measurements!(measurements::MeasurementArray)
 end
 
 function get_measurements(m_array::MeasurementArray)
+  """
+  Return a dictionary of all observables
+  """
   return Dict(
     m.obs_data.name => (m.obs_data.mean, m.obs_data.square) for
     m in m_array.measurements

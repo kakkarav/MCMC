@@ -7,14 +7,14 @@ seed,1
 bond_type,1
 prob,0.0
 chem_potential,0.0
-chem_disorder,0.4
+chem_disorder,0.3
 bond_disorder_villain,0.0
 bond_disorder_loop,0.0
 L,12
 Lt_ratio,12
 Lt_power,0
 num_of_thermal,10000
-num_of_measure,10000
+num_of_measure,1000
 num_of_sweeps,1
 dual_lambda,0
 dual_L,1

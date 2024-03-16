@@ -10,10 +10,11 @@ function main(params_dict::Dict{String,Real})
   MCMC.run!(sim)
 
   #Print out output
-  MCMC.printHeader(params_dict)
-  MCMC.printOutput(sim)
+  MCMC.print_header()
+  MCMC.print_raw_output(sim)
   return MCMC.get_measurements(sim.measurements)
 end
 
-input_params = MCMC.FileToDict(ARGS[1])
+input_params = MCMC.file_to_dict(ARGS[1])
 data = main(input_params)
+

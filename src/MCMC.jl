@@ -1,7 +1,5 @@
 module MCMC
 
-export Sim
-
 include("parameters/Defs.jl")
 include("parameters/SimParameters.jl")
 
@@ -11,7 +9,6 @@ using .SimParameters
 
 using Statistics
 using Random
-using Base.Cartesian
 
 include("lattices/latticedata.jl")
 include("lattices/disorderdata.jl")
@@ -97,6 +94,7 @@ function move_worm_head!(sim::Sim)
   shift_worm!(sim.worm_data, sim.lat, sim.sim_params, sim.disorder)
 end
 
+
 function update_worm!(sim::Sim)
   for _ = 1:(3*sim.sim_params.L^3)
     move_worm_head!(sim)
@@ -126,15 +124,6 @@ function update_binding!(sim::Sim)
   return nothing
 end
 
-
-# function update_all!(sim::Sim)
-#   for _ in 1:sim.sim_params.num_of_sweeps
-#     update_villain!(sim)
-#     update_binding!(sim)
-#     update_worm!(sim)
-#   end
-#   return nothing
-# end
 function update_all!(sim::Sim)
   update_villain!(sim)
   update_binding!(sim)
@@ -149,7 +138,6 @@ function thermalize!(sim::Sim)
   end
   return nothing
 end
-
 
 function run!(sim::Sim)
   counter = 0
