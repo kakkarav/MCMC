@@ -21,11 +21,16 @@ The dependencies can be installed by going into the root directory of the projec
 
 ```julia
 julia --project=.
-]
-instantiate
 ```
 
-## Paramters
+In Julia REPL, run the following command to instantiate the environment:
+
+```julia
+> ]
+> instantiate
+```
+
+## Parameters
 
 -  `lambda1` (float): The coupling of the loop bond variable.
 -  `lambda2` (float): The coupling of the angle variable.
