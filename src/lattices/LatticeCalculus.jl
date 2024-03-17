@@ -27,14 +27,6 @@ using Base.Cartesian
   end
 end
 
-function curl(lattice::Lattice, location::NTuple{NDIMS,Int64}, dir::Int64)
-  villain_site = hop(location, dir, 1, size(lattice.angle))
-  n = CYCLIC[dir+1]
-  nn = CYCLIC[dir+2]
-  return derivative(lattice, villain_site, n, nn) -
-         derivative(lattice, villain_site, nn, n)
-end
-
 function derivative(
   lattice::Lattice,
   location::NTuple{NDIMS,Int64},
@@ -42,5 +34,12 @@ function derivative(
   value::Int64,
 )
   nn = hop(location, dir, 1, size(lattice.angle))
-  return lattice.p_lattice[nn..., value] - lattice.p_lattice[location..., value]
+  lattice.p_lattice[nn..., value] - lattice.p_lattice[location..., value]
+end
+
+function curl(lattice::Lattice, location::NTuple{NDIMS,Int64}, dir::Int64)
+  villain_site = hop(location, dir, 1, size(lattice.angle))
+  n = CYCLIC[dir+1]
+  nn = CYCLIC[dir+2]
+  derivative(lattice, villain_site, n, nn) - derivative(lattice, villain_site, nn, n)
 end

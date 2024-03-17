@@ -6,7 +6,7 @@ This simulation is used to study the phase diagram of the compressible bosonic i
 
 This simulation extends the beautiful work of [Scott D. Geraedts and Olexei I. Motrunich](https://arxiv.org/abs/1302.1436) by including a random chemical potential to the first Boson component and is a part of my new paper.
 
-The U(1)xU(1) moel is described by an effective action:
+The U(1)xU(1) model is described by an effective action:
 ```math
 $$ S = \sum_{\textbf{r}} \frac{1}{2 \lambda_1} \bigg|\textbf{J}(\textbf{r}) - \eta [ \nabla \times \textbf{p}] (\textbf{r}) \bigg|^2 
 + \sum_{\textbf{r}} \frac{\mu}{\lambda_1} J_{\tau}(\textbf{r})
@@ -25,7 +25,7 @@ instantiate
 
 ## Example
 
-This example create a lattice of size 8x8x8 with 1000 measurements and 10000 thermalization sweeps.
+This example create a lattice of size 12x12x12 with 10000 measurements and 100000 thermalization sweeps.
 
 The parameters are stored in a dictionary and the simulation is run as follows:
 ```julia

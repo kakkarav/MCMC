@@ -14,6 +14,7 @@ mutable struct Lattice
     # winding number 
     winding::Array{Int64,1}
     energy::Float64
+
     function Lattice(sim_params::SimParams)
         L = sim_params.L
         T = sim_params.Lt

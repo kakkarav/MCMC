@@ -26,7 +26,8 @@ include("updates/updateCustom.jl")
 
 struct Sim
   lat::Lattice
-  lattice_map::CartesianIndices{3,Tuple{Base.OneTo{Int64},Base.OneTo{Int64},Base.OneTo{Int64}},}
+  # lattice_map::CartesianIndices{3,Tuple{Base.OneTo{Int64},Base.OneTo{Int64},Base.OneTo{Int64}},}
+  lattice_map::CartesianIndices{NDIMS}
   worm_data::WormMoveData
   sim_params::SimParams
   measurements::MeasurementArray
@@ -36,8 +37,7 @@ struct Sim
 end
 
 function Sim(sim_params::SimParams)
-  rng = Random.Xoshiro()
-  Random.seed!(rng, rand(UInt64))
+  rng = Random.Xoshiro(rand(UInt64))
   fourier = [
     [exp(-im * 2 * pi * (n - 1) * (m - 1) / sim_params.Lt) for n = 1:sim_params.Lt] for m = 1:sim_params.Lt
   ]
@@ -98,7 +98,6 @@ function update_worm!(sim::Sim)
 end
 
 function update_villain!(sim::Sim)
-  """Update all Villain variables"""
   @inbounds for site in eachindex(sim.lat.angle)
     location = Tuple(sim.lattice_map[site])
     metro_angle!(sim.lat, sim.sim_params, sim.disorder, sim.rng, location)
@@ -127,7 +126,6 @@ function update_all!(sim::Sim)
 end
 
 function thermalize!(sim::Sim)
-  """Burn in or thermalization"""
   for _ = 1:sim.sim_params.num_of_thermal
     update_all!(sim)
   end
