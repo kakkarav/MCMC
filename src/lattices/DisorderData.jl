@@ -22,7 +22,16 @@ struct Disorder
 		sum_loop_bond = sum_bonds(1 ./ bond_disorder_loop)
 		sum_loop_bond_inverse = sum_bonds(bond_disorder_loop)
 
-		new(chemical_potential, chemical_weight, bond_disorder_villain, bond_disorder_loop, weights_inc, weights_dec, sum_villain_bond, sum_loop_bond, sum_loop_bond_inverse)
+		new(chemical_potential,
+			chemical_weight,
+			bond_disorder_villain,
+			bond_disorder_loop,
+			weights_inc,
+			weights_dec,
+			sum_villain_bond,
+			sum_loop_bond,
+			sum_loop_bond_inverse,
+		)
 	end
 end
 
