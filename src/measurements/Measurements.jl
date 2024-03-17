@@ -13,8 +13,9 @@ mutable struct ObsData{T}
   c_num_of_measure::Int64 #Current number of measurements
 end
 
-########## Data type ##########################################################################################################################################################
-
+```
+Constructors for different data types
+```
 #scalar
 function ObsDataScalar(name::String, num_of_measure::Int64)
   ObsData{Float64}(name, 0.0, 0.0, 0, 0)
@@ -56,9 +57,9 @@ function ObsDataHall(name::String, num_of_measure::Int64)
 end
 
 
-########### Take Measurement ########################################################################################################################################################
-
-
+```
+Measurement methods
+```
 #scalar
 function take_measurement!(obs_data::ObsData{T}, data::T) where {T<:Number}
   obs_data.c_num_of_measure += 1
@@ -85,34 +86,26 @@ function clear_data!(measurement::T) where {T<:Obs}
   return nothing
 end
 
-########## Measurement methods ###################################################################################################################################################################
-
+```
+Measurement methods
+```
 mutable struct MeasurementArray
   measurements::Array{Any,1}
   MeasurementArray(measurements::Array{Any,1}) = new(measurements)
 end
 
-function measure_all!(measurements::MeasurementArray, sim)
-  measure_obs!.(measurements.measurements, Ref(sim))
-  return nothing
+function measure_all!(m_array::MeasurementArray, sim)
+  foreach(m -> measure_obs!(m, sim), m_array.measurements)
 end
 
-function measure_correlator!(measurements::MeasurementArray, sim)
-  measure_obs!.(measurements.measurements[1:3], Ref(sim))
-  return nothing
+function measure_correlator!(m_array::MeasurementArray, sim)
+  foreach(m -> measure_obs!(m, sim), m_array.measurements[1:3])
 end
 
-function reset_measurements!(measurements::MeasurementArray)
-  clear_data!.(measurements.measurements)
-  return nothing
+function reset_measurements!(m_array::MeasurementArray)
+  foreach(clear_data!, m_array.measurements)
 end
 
 function get_measurements(m_array::MeasurementArray)
-  """
-  Return a dictionary of all observables
-  """
-  return Dict(
-    m.obs_data.name => (m.obs_data.mean, m.obs_data.square) for
-    m in m_array.measurements
-  )
+  Dict(m.obs_data.name => (m.obs_data.mean, m.obs_data.square) for m in m_array.measurements)
 end
