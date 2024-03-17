@@ -10,7 +10,7 @@ function main(params_dict::Dict{String,Real})
   println("Running...")
   MCMC.run!(sim)
 
-  #Print out output
+  #Print raw measurements 
   MCMC.print_header()
   MCMC.print_raw_output(sim)
   return MCMC.get_measurements(sim.measurements)

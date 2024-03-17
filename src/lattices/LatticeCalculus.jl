@@ -29,8 +29,8 @@ end
 
 function curl(lattice::Lattice, location::NTuple{NDIMS,Int64}, dir::Int64)
   villain_site = hop(location, dir, 1, size(lattice.angle))
-  n = cyclic[dir+1]
-  nn = cyclic[dir+2]
+  n = CYCLIC[dir+1]
+  nn = CYCLIC[dir+2]
   return derivative(lattice, villain_site, n, nn) -
          derivative(lattice, villain_site, nn, n)
 end

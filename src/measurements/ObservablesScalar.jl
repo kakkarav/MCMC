@@ -56,8 +56,8 @@ end
 
 function measure_obs!(obs::ObsStiffnessLoopAll, sim)
   fill!(obs.stiffFT, 0.0)
-  for i = 1:sim.sim_params.Lt
-    for dir = 1:2
+  for i in 1:sim.sim_params.Lt
+    for dir in 1:2
       fill!(obs.current, 0.0)
       for t = 1:sim.sim_params.Lt
         obs.current[t] += cal_current_loop_list(sim, dir, t)
@@ -97,7 +97,7 @@ struct ObsCurrentSpaceLoop <: Obs
 end
 
 function measure_obs!(obs_green::ObsCurrentSpaceLoop, sim)
-  for dir = 1:2
+  for dir in 1:2
     obs_green.green[dir] =
       float(sim.lat.winding[dir]) / sim.sim_params.L^((NDIMS - 1) / 2) /
       sim.sim_params.Lt^(1 / 2)

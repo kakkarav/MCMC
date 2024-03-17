@@ -1,6 +1,6 @@
 function divergence(lattice::Array{Int64,4}, params::SimParameters.SimParams, site::NTuple{Defs.NDIMS,Int64})
   total_current = 0
-  for dir = 1:Defs.NDIMS
+  for dir in 1:Defs.NDIMS
     for lr = 1:2
       current_site = lr == 1 ? site : MCMC.hop(site, dir, 2, size(lattice)[1:3])
       charge = (lr == 1 ? 1 : -1)

@@ -39,7 +39,7 @@ end
   E = 0.0
   for j in eachindex(sim.lat.angle)
     j_site = Tuple(CartesianIndices(sim.lat.angle)[j])
-    for dir = 1:Defs.NDIMS
+    for dir in 1:Defs.NDIMS
       E += energy_single_bond(sim.lat, params, sim.disorder, j_site, dir)
     end
   end

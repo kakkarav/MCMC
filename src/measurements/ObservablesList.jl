@@ -44,8 +44,8 @@ end
 #calculate a sum of the current of one time slice (t = time) for Villain model
 function cal_current_villain_list(sim, dir::Int64, time::Int64)
   current = 0.0
-  for i = 1:size(sim.lat.angle, 1)
-    for j = 1:size(sim.lat.angle, 2)
+  for i in 1:size(sim.lat.angle, 1)
+    for j in 1:size(sim.lat.angle, 2)
       location = (i, j, time)
       nn = hop(location, dir, 1, size(sim.lat.angle))
       fluctuate = sim.lat.fluctuate_lattice[dir] / sim.sim_params.Lt
@@ -61,8 +61,8 @@ end
 
 function cal_angle_villain_list(sim, dir::Int64, time::Int64)
   angle = 0.0
-  for i = 1:size(sim.lat.angle, 1)
-    for j = 1:size(sim.lat.angle, 2)
+  for i in 1:size(sim.lat.angle, 1)
+    for j in 1:size(sim.lat.angle, 2)
       location = (i, j, time)
       angle +=
         sim.disorder.bond_disorder_villain[i, j, dir] * sim.lat.angle[location...]
@@ -73,8 +73,8 @@ end
 
 function cal_current_curl_list(sim, dir::Int64, time::Int64)
   current = 0.0
-  for i = 1:size(sim.lat.angle, 1)
-    for j = 1:size(sim.lat.angle, 2)
+  for i in 1:size(sim.lat.angle, 1)
+    for j in 1:size(sim.lat.angle, 2)
       current += sim.lat.curl_lattice[i, j, time, dir]
     end
   end
@@ -84,8 +84,8 @@ end
 #calculate a sum of the current of one time slice (t = time) for loop model
 function cal_current_loop_list(sim, dir::Int64, time::Int64)
   current = 0.0
-  for i = 1:size(sim.lat.angle, 1)
-    for j = 1:size(sim.lat.angle, 2)
+  for i in 1:size(sim.lat.angle, 1)
+    for j in 1:size(sim.lat.angle, 2)
       current += sim.lat.current[i, j, time, dir]
     end
   end
@@ -94,8 +94,8 @@ end
 
 function cal_current_disorder_loop_list(sim, dir::Int64, time::Int64)
   current = 0.0
-  for i = 1:size(sim.lat.angle, 1)
-    for j = 1:size(sim.lat.angle, 2)
+  for i in 1:size(sim.lat.angle, 1)
+    for j in 1:size(sim.lat.angle, 2)
       current +=
         (
           sim.lat.current[i, j, time, dir] -
@@ -171,7 +171,7 @@ struct ObsCurrentSpaceVillain <: Obs
 end
 
 function measure_obs!(obs_green::ObsCurrentSpaceVillain, sim)
-  for dir = 1:2
+  for dir in 1:2
     obs_green.green[dir] = cal_current_villain(sim, dir)
   end
   take_measurement!(obs_green.obs_data, obs_green.green)
@@ -240,7 +240,7 @@ end
 
 function measure_obs!(obs_green::ObsGreenVillainSpace, sim)
   fill!(obs_green.green, 0.0 + im * 0.0)
-  for r = 1:sim.sim_params.L
+  for r in 1:sim.sim_params.L
     for j in eachindex(sim.lat.angle)
       separation = r - 1
       j_site = Tuple(CartesianIndices(sim.lat.angle)[j])
@@ -264,8 +264,8 @@ end
 
 function cal_mag_villain_list(sim, time::Int64)
   total_mag = 0.0 + im * 0.0
-  for i = 1:size(sim.lat.angle, 1)
-    for j = 1:size(sim.lat.angle, 2)
+  for i in 1:size(sim.lat.angle, 1)
+    for j in 1:size(sim.lat.angle, 2)
       total_mag += exp.(im * sim.lat.angle[i, j, time])
     end
   end

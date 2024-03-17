@@ -105,7 +105,7 @@ function shift_worm!(
   single shift move of worm's head
   """
   # draw next move
-  move_rnd = rand(worm_data.rng, worm_range)
+  move_rnd = rand(worm_data.rng, WORM_RANGE)
   # cartesian direction
   dir = fld1(move_rnd, 2)
   # left or right

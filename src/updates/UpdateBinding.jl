@@ -11,7 +11,7 @@ function metro_binding!(
     by changing P, we create a loop in curl variable. 
     """
     #propose an update the current and the gauge field simultaneously 
-    random_move = rand(rng, binding_range)
+    random_move = rand(rng, BINDING_RANGE)
     p_change = mod1(random_move, 3) - 2
     loop_change = fld1(random_move, 3) - 2
 
