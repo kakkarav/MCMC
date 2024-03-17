@@ -9,9 +9,9 @@ This simulation extends the beautiful work of [Scott D. Geraedts and Olexei I. M
 The U(1)xU(1) moel is described by an effective action:
 ```math
 $$ S = \sum_{\textbf{r}} \frac{1}{2 \lambda_1} \bigg|\textbf{J}(\textbf{r}) - \eta [ \nabla \times \textbf{p}] (\textbf{r}) \bigg|^2 
- + \sum_\text{\textbf{R}} \frac{\lambda2}{2} \bigg( \nabla \theta (\textbf{R})- 2 \pi \textbf{p} (\textbf{R})\bigg)^2$$
+ + \sum_\text{\textbf{R}} \frac{\lambda2}{2} \bigg( [\nabla \theta] (\textbf{R})- 2 \pi \textbf{p} (\textbf{R})\bigg)^2$$
 ```
-
+where $\textbf{J}$ is a loop variable, $\theta$ is an angle variable, and $\textbf{p}$ is an integer-valued gauge field.
 ## Installation
 
 The dependencies can be installed by going into the root directory of the project and run the following command:
