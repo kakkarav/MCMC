@@ -8,8 +8,8 @@ This simulation extends the beautiful work of [Scott D. Geraedts and Olexei I. M
 
 The U(1)xU(1) moel is described by an effective action:
 ```math
-$$ S = \sum_{\textbf{r}} \frac{1}{2 \lambda1} |\textbf{J} - \eta \nabla \time \textbf{p}|^2 \\
-\sum_\text{\textbf{R}} \frac{\lambda2}{2} ( \nabla p_{\mu} - 2 \pi \textbf{p})^2$$
+$$ S = \sum_{\textbf{r}} \frac{1}{2 \lambda_1} |\textbf{J} - \eta \nabla \times \textbf{p}|^2 
+ + \sum_\text{\textbf{R}} \frac{\lambda2}{2} ( \nabla \theta (\textbf{R})- 2 \pi \textbf{p} (\textbf{R}))^2$$
 ```
 
 ## Installation
