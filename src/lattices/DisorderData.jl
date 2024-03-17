@@ -54,8 +54,8 @@ function calc_ratios(sim_params::SimParams, bond_loop::Array{Float64, NDIMS})
 	for site in eachindex(bond_loop)
 		location = Tuple(CartesianIndices(bond_loop)[site])
 		coupling = 1 / (2.0 * bond_loop[location...])
-		energy_inc = coupling .* [((n + 1)^2 - n^2) for n ∈ -MAX_BOND_J:MAX_BOND_J]
-		energy_dec = coupling .* [((n - 1)^2 - n^2) for n ∈ -MAX_BOND_J:MAX_BOND_J]
+		energy_inc = coupling .* [((n + 1)^2 - n^2) for n in -MAX_BOND_J:MAX_BOND_J]
+		energy_dec = coupling .* [((n - 1)^2 - n^2) for n in -MAX_BOND_J:MAX_BOND_J]
 		w_inc[location...] = exp.(-energy_inc)
 		w_dec[location...] = exp.(-energy_dec)
 	end

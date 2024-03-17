@@ -18,24 +18,24 @@ function calc_ratios(sim_params::SimParams)
 
 	weights_inc_with_p = Array{Array{Float64, 1}}(undef, 2 .* MAX_P + 1)
 	weights_dec_with_p = Array{Array{Float64, 1}}(undef, 2 .* MAX_P + 1)
-	for curl_p ∈ -MAX_P:MAX_P
+	for curl_p in -MAX_P:MAX_P
 		location = curl_p + MAX_P + 1
 		coupling1 = 1 / (2.0 * sim_params.lambda2)
 		coupling2 = sim_params.eta * curl_p ./ sim_params.lambda2
 		energy_inc =
-			coupling1 * [((n + 1)^2.0 - n^2.0) for n ∈ -MAX_BOND_J:MAX_BOND_J] .- coupling2
+			coupling1 * [((n + 1)^2.0 - n^2.0) for n in -MAX_BOND_J:MAX_BOND_J] .- coupling2
 		weights_inc = exp.(-energy_inc)
 		energy_dec =
-			coupling1 * [((n - 1)^2.0 - n^2.0) for n ∈ -MAX_BOND_J:MAX_BOND_J] .+ coupling2
+			coupling1 * [((n - 1)^2.0 - n^2.0) for n in -MAX_BOND_J:MAX_BOND_J] .+ coupling2
 		weights_dec = exp.(-energy_dec)
 		weights_inc_with_p[location] = weights_inc
 		weights_dec_with_p[location] = weights_dec
 	end
 
 	coupling2 = 1 / (2.0 * sim_params.lambda3)
-	energy_inc = coupling2 * [((n + 1)^2.0 - n^2.0) for n ∈ -MAX_BOND_J:MAX_BOND_J]
+	energy_inc = coupling2 * [((n + 1)^2.0 - n^2.0) for n in -MAX_BOND_J:MAX_BOND_J]
 	weights_self_inc = exp.(-energy_inc)
-	energy_dec = coupling2 * [((n - 1)^2.0 - n^2.0) for n ∈ -MAX_BOND_J:MAX_BOND_J]
+	energy_dec = coupling2 * [((n - 1)^2.0 - n^2.0) for n in -MAX_BOND_J:MAX_BOND_J]
 	weights_self_dec = exp.(-energy_dec)
 
 	return weights_inc_with_p, weights_dec_with_p, weights_self_inc, weights_self_dec

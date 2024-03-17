@@ -59,7 +59,7 @@ function measure_obs!(obs::ObsStiffnessLoopAll, sim)
 	for i in 1:sim.sim_params.Lt
 		for dir in 1:2
 			fill!(obs.current, 0.0)
-			for t ∈ 1:sim.sim_params.Lt
+			for t in 1:sim.sim_params.Lt
 				obs.current[t] += cal_current_loop_list(sim, dir, t)
 			end
 			obs.stiffFT[i] +=
@@ -117,7 +117,7 @@ end
 
 function measure_obs!(obs_current::ObsCurrentLoopFT, sim)
 	fill!(obs_current.current, 0.0)
-	for t ∈ 1:sim.sim_params.Lt
+	for t in 1:sim.sim_params.Lt
 		obs_current.current[t] += cal_current_loop_list(sim, 1, t)
 	end
 	current = dot(obs_current.current, sim.fourier[2])
@@ -158,7 +158,7 @@ end
 
 function measure_obs!(obs_stiff::ObsStiffnessLoopFT, sim)
 	fill!(obs_stiff.current, 0.0)
-	for t ∈ 1:sim.sim_params.Lt
+	for t in 1:sim.sim_params.Lt
 		obs_stiff.current[t] += cal_current_loop_list(sim, 1, t)
 	end
 	stiffness =
@@ -182,7 +182,7 @@ end
 function measure_obs!(obs_current::ObsCurrentVillainFT, sim)
 	fill!(obs_current.current_villain, 0.0)
 	fill!(obs_current.current_loop, 0.0)
-	for t ∈ 1:sim.sim_params.Lt
+	for t in 1:sim.sim_params.Lt
 		obs_current.current_villain[t] += cal_current_villain_list(sim, 1, t)
 		obs_current.current_loop[t] += cal_current_disorder_loop_list(sim, 2, t)
 	end
@@ -320,7 +320,7 @@ end
 function measure_obs!(obs_stiff::ObsStiffnessVillainFT, sim)
 	fill!(obs_stiff.current_villain, 0.0)
 	fill!(obs_stiff.current_loop, 0.0)
-	for t ∈ 1:sim.sim_params.Lt
+	for t in 1:sim.sim_params.Lt
 		obs_stiff.current_villain[t] += cal_current_villain_list(sim, 1, t)
 		obs_stiff.current_loop[t] += cal_current_disorder_loop_list(sim, 2, t)
 	end

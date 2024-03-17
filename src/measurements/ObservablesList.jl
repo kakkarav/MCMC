@@ -17,7 +17,7 @@ function measure_obs!(obs_hall_cond::ObsHallConductivity, sim)
 	fill!(obs_hall_cond.villain_J, 0.0)
 	fill!(obs_hall_cond.loop_J, 0.0)
 	fill!(obs_hall_cond.coupled_J, 0.0)
-	for t ∈ 1:sim.sim_params.Lt
+	for t in 1:sim.sim_params.Lt
 		obs_hall_cond.villain_J[t] += cal_current_villain_list(sim, 1, t)
 		obs_hall_cond.loop_J[t] += cal_current_loop_list(sim, 2, t)
 		obs_hall_cond.coupled_J[t] += cal_current_disorder_loop_list(sim, 2, t)
@@ -208,7 +208,7 @@ end
 
 function measure_obs!(obs_green::ObsGreenVillainTime, sim)
 	fill!(obs_green.green, 0.0 + im * 0.0)
-	for t ∈ 1:sim.sim_params.Lt
+	for t in 1:sim.sim_params.Lt
 		for j in eachindex(sim.lat.angle)
 			j_site = Tuple(CartesianIndices(sim.lat.angle)[j])
 			time_separation = t - 1

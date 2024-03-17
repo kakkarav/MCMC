@@ -38,7 +38,7 @@ function Energy_local_angle(
 	#For bonds in the XY plane
 	#Disordered bonds are store in Disorder.
 	for dir in 1:2
-		for lc ∈ 1:2
+		for lc in 1:2
 			#we hop here in order to calculate \omega_{\mu} = phi(r+\mu) - phi(r)
 			nn = hop(location, dir, lc, size(lattice.angle))
 			if lc == 1
@@ -62,7 +62,7 @@ function Energy_local_angle(
 	end
 
 	#for bond in the time direction (dir==3)
-	for lc ∈ 1:2
+	for lc in 1:2
 		#we hop here in order to calculate \omega_{\mu} = phi(r+\mu) - phi(r)
 		nn = hop(location, NDIMS, lc, size(lattice.angle))
 		if lc == 1
