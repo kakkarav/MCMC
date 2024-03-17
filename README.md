@@ -4,7 +4,7 @@ This Julia package implemented the [worm](https://arxiv.org/abs/cond-mat/0103146
 
 This simulation is used to study the phase diagram of the compressible bosonic integer quantum hall state.
 
-This simulation extends the beautiful work of [Scott D. Geraedts and Olexei I. Motrunich](https://arxiv.org/abs/1302.1436) by including a random chemical potential and is a part of my new paper.
+This simulation extends the beautiful work of [Scott D. Geraedts and Olexei I. Motrunich](https://arxiv.org/abs/1302.1436) by including a random chemical potential to the first Boson component and is a part of my new paper.
 
 
 ## Installation
@@ -47,13 +47,15 @@ params_dict = Dict("lambda1" => 0.23,
 
 params = MCMC.SimParameters.SimParams(params_dict)
 sim = MCMC.Sim(params)
+# Warm up the simulation
 MCMC.thermalize!(sim)
+# Run the simulation
 MCMC.run!(sim)
-# the raw data is return as a dictionary
+# the raw data is returned as a dictionary
 println(MCMC.get_measurements(sim.measurements))
 ```
 
-Alternatively, the code can be run by taking an option file with the help of the parser function:
+Alternatively, the script can take an option file with the help of the parser function:
 ```julia
 julia --project=. main.jl test.opts
 ```

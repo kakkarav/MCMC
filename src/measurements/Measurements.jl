@@ -7,10 +7,10 @@ abstract type Obs end
 
 mutable struct ObsData{T}
   name::String
-  mean::T
-  square::T
-  num_of_measure::Int64
-  c_num_of_measure::Int64
+  mean::T #direct sum
+  square::T #sum of square for computing variance
+  num_of_measure::Int64 #Total number of measurements
+  c_num_of_measure::Int64 #Current number of measurements
 end
 
 ########## Data type ##########################################################################################################################################################

@@ -1,12 +1,16 @@
+#Disiorder store information about spatial varying disorder in lattice
 struct Disorder
   chemical_potential::Array{Float64,NDIMS - 1}
   chemical_weight::Array{Float64,NDIMS - 1}
   bond_disorder_villain::Array{Float64,NDIMS}
   bond_disorder_loop::Array{Float64,NDIMS}
+  #Precomputed weights for the loop update
   weights_inc::Array{Array{Float64,1},NDIMS}
   weights_dec::Array{Array{Float64,1},NDIMS}
   sum_villain_bond::Array{Float64,1}
+  #Sum of the loop bond strength
   sum_loop_bond::Array{Float64,1}
+  #Sum of the inverse loop bond strength
   sum_loop_bond_inverse::Array{Float64,1}
 end
 
@@ -66,7 +70,7 @@ end
 
 function calc_ratios(sim_params::SimParams, bond_loop::Array{Float64,NDIMS})
   """
-  Calculates the ratios of the weights for the loop update
+  Calculates the transition weights for the loop update
   """
   w_inc = Array{Array{Float64,1}}(undef, sim_params.L, sim_params.L, NDIMS - 1)
   w_dec = Array{Array{Float64,1}}(undef, sim_params.L, sim_params.L, NDIMS - 1)

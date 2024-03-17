@@ -32,7 +32,7 @@ end
 
 function file_to_dict(file)
   """
-  Parse the parameter option file into a dictionary
+  Parse the option file into a dictionary
   """
   #float parameters
   floats = [
@@ -69,10 +69,15 @@ function file_to_dict(file)
     lines = readlines(f)
     for line in lines
       k, v = split(line, ",")
-      if k in floats
-        params[k] = parse(Float64, v)
-      else
-        params[k] = parse(Int64, v)
+      try
+        if k in floats
+          params[k] = parse(Float64, v)
+        else
+          params[k] = parse(Int64, v)
+        end
+      catch e
+        println("Error parsing $k:$v")
+        rethrow(e)
       end
     end
   end
@@ -102,7 +107,7 @@ function print_header()
   """
   Print out the headers for the raw data in the CSV format
   """
-  #All Observables
+  #All Observables with the properties to extract
   obs = [
     ("Energy", "mean"),
     ("Complex Hall Conductivity", "real"),

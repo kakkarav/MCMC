@@ -18,12 +18,12 @@ include("measurements/Measurements.jl")
 include("measurements/ObservablesScalar.jl")
 include("measurements/ObservablesList.jl")
 
-include("updates/Update_angle.jl")
-include("updates/Update_p.jl")
-include("updates/Update_J.jl")
-include("updates/Update_fluctuate.jl")
-include("updates/Update_binding.jl")
-include("updates/Update_custom.jl")
+include("updates/UpdateAngle.jl")
+include("updates/UpdateP.jl")
+include("updates/UpdateJ.jl")
+include("updates/UpdateFluctuate.jl")
+include("updates/UpdateBinding.jl")
+include("updates/UpdateCustom.jl")
 
 
 struct Sim
@@ -153,6 +153,6 @@ function run!(sim::Sim)
   end
 end
 
-include("helpers.jl")
+include("help.jl")
 
 end
