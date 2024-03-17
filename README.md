@@ -25,7 +25,7 @@ instantiate
 
 ## Example
 
-This example create a lattice of size 12x12x12 with 10000 measurements and 100000 thermalization sweeps.
+This example create a lattice of size 12x12x12 with 10000 measurements and 100000 Monte Carlo sweeps.
 
 The parameters are stored in a dictionary and the simulation is run as follows:
 ```julia
