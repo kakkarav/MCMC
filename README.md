@@ -6,6 +6,13 @@ This simulation is used to study the phase diagram of the compressible bosonic i
 
 This simulation extends the beautiful work of [Scott D. Geraedts and Olexei I. Motrunich](https://arxiv.org/abs/1302.1436) by including a random chemical potential to the first Boson component and is a part of my new paper.
 
+The U(1)xU(1) moel is described by an effective action:
+```math
+$$ S = \sum_{ij}$$
+```
+```math
+$$\mathbb{N} = \{ a \in \mathbb{Z} : a > 0 \}$$
+```
 
 ## Installation
 

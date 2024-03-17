@@ -1,23 +1,20 @@
 module MCMC
 
+# Include parameter definitions and simulation parameters
 include("parameters/Defs.jl")
 include("parameters/SimParameters.jl")
 
+using .Defs, .SimParameters, Statistics, Random
 
-using .Defs
-using .SimParameters
-
-using Statistics
-using Random
-
+# Include lattice data and lattice calculus
 include("lattices/latticedata.jl")
 include("lattices/disorderdata.jl")
 include("lattices/LatticeCalculus.jl")
 
+# Include measurement and Monte Carlo update modules
 include("measurements/Measurements.jl")
 include("measurements/ObservablesScalar.jl")
 include("measurements/ObservablesList.jl")
-
 include("updates/UpdateAngle.jl")
 include("updates/UpdateP.jl")
 include("updates/UpdateJ.jl")
@@ -26,12 +23,11 @@ include("updates/UpdateBinding.jl")
 include("updates/UpdateCustom.jl")
 
 
+
+# Struct representing the simulation state
 struct Sim
   lat::Lattice
-  lattice_map::CartesianIndices{
-    3,
-    Tuple{Base.OneTo{Int64},Base.OneTo{Int64},Base.OneTo{Int64}},
-  }
+  lattice_map::CartesianIndices{3,Tuple{Base.OneTo{Int64},Base.OneTo{Int64},Base.OneTo{Int64}}}
   worm_data::WormMoveData
   sim_params::SimParams
   measurements::MeasurementArray
@@ -41,11 +37,8 @@ struct Sim
 end
 
 function Sim(sim_params::SimParams)
-  rng = Random.Xoshiro()
-  Random.seed!(rng, rand(UInt64))
-  fourier = [
-    [exp(-im * 2 * pi * (n - 1) * (m - 1) / sim_params.Lt) for n = 1:sim_params.Lt] for m = 1:sim_params.Lt
-  ]
+  rng = create_rng()
+  fourier = create_fourier_array(sim_params.Lt)
   lattice = Lattice(sim_params)
   lattice_map = CartesianIndices(lattice.angle)
   Sim(
@@ -53,35 +46,91 @@ function Sim(sim_params::SimParams)
     lattice_map,
     WormMoveData(sim_params, rng),
     sim_params,
-    MeasurementArray(
-      Any[
-        ObsGreenLoopTime(sim_params.num_of_measure, sim_params.Lt),
-        ObsGreenLoopSpace(sim_params.num_of_measure, sim_params.L),
-        ObsZRatio(sim_params.num_of_measure),
-        ObsCompressLoop(sim_params.num_of_measure),
-        ObsStiffnessLoopAll(sim_params.num_of_measure, sim_params.Lt),
-        ObsEnergy(sim_params.num_of_measure),
-        ObsHallConductivity(sim_params.num_of_measure, sim_params.Lt),
-        ObsCurrentTimeLoop(sim_params.num_of_measure),
-        ObsCurrentSpaceLoop(sim_params.num_of_measure),
-        ObsCurrentLoopFT(sim_params.num_of_measure, sim_params.Lt),
-        ObsGreenVillainTime(sim_params.num_of_measure, sim_params.Lt),
-        ObsGreenVillainSpace(sim_params.num_of_measure, sim_params.L),
-        ObsCompressVillain(sim_params.num_of_measure),
-        ObsCurrentSpaceVillain(sim_params.num_of_measure),
-        ObsCurrentTimeVillain(sim_params.num_of_measure),
-        ObsCurrentVillainFT(sim_params.num_of_measure, sim_params.Lt),
-        ObsStiffnessVillain(sim_params.num_of_measure),
-        ObsStiffnessVillainFT(sim_params.num_of_measure, sim_params.Lt),
-        ObsMagnitization(sim_params.num_of_measure),
-      ],
-    ),
+    MeasurementArray(create_measurement_array(sim_params)),
     rng,
     fourier,
     Disorder(sim_params),
   )
 end
 
+function create_rng()
+  rng = Random.Xoshiro()
+  Random.seed!(rng, rand(UInt64))
+  return rng
+end
+
+# Create the Fourier transform array
+function create_fourier_array(Lt)
+  [exp(-im * 2 * pi * (n - 1) * (m - 1) / Lt) for n = 1:Lt, m = 1:Lt]
+end
+
+# Create an array of measurement objects
+function create_measurement_array(sim_params::SimParams)
+  Any[
+    ObsGreenLoopTime(sim_params.num_of_measure, sim_params.Lt),
+    ObsGreenLoopSpace(sim_params.num_of_measure, sim_params.L),
+    ObsZRatio(sim_params.num_of_measure),
+    ObsCompressLoop(sim_params.num_of_measure),
+    ObsStiffnessLoopAll(sim_params.num_of_measure, sim_params.Lt),
+    ObsEnergy(sim_params.num_of_measure),
+    ObsHallConductivity(sim_params.num_of_measure, sim_params.Lt),
+    ObsCurrentTimeLoop(sim_params.num_of_measure),
+    ObsCurrentSpaceLoop(sim_params.num_of_measure),
+    ObsCurrentLoopFT(sim_params.num_of_measure, sim_params.Lt),
+    ObsGreenVillainTime(sim_params.num_of_measure, sim_params.Lt),
+    ObsGreenVillainSpace(sim_params.num_of_measure, sim_params.L),
+    ObsCompressVillain(sim_params.num_of_measure),
+    ObsCurrentSpaceVillain(sim_params.num_of_measure),
+    ObsCurrentTimeVillain(sim_params.num_of_measure),
+    ObsCurrentVillainFT(sim_params.num_of_measure, sim_params.Lt),
+    ObsStiffnessVillain(sim_params.num_of_measure),
+    ObsStiffnessVillainFT(sim_params.num_of_measure, sim_params.Lt),
+    ObsMagnitization(sim_params.num_of_measure),
+  ]
+end
+
+# function Sim(sim_params::SimParams)
+#   rng = Random.Xoshiro()
+#   Random.seed!(rng, rand(UInt64))
+#   fourier = [
+#     [exp(-im * 2 * pi * (n - 1) * (m - 1) / sim_params.Lt) for n = 1:sim_params.Lt] for m = 1:sim_params.Lt
+#   ]
+#   lattice = Lattice(sim_params)
+#   lattice_map = CartesianIndices(lattice.angle)
+#   Sim(
+#     lattice,
+#     lattice_map,
+#     WormMoveData(sim_params, rng),
+#     sim_params,
+#     MeasurementArray(
+#       Any[
+#         ObsGreenLoopTime(sim_params.num_of_measure, sim_params.Lt),
+#         ObsGreenLoopSpace(sim_params.num_of_measure, sim_params.L),
+#         ObsZRatio(sim_params.num_of_measure),
+#         ObsCompressLoop(sim_params.num_of_measure),
+#         ObsStiffnessLoopAll(sim_params.num_of_measure, sim_params.Lt),
+#         ObsEnergy(sim_params.num_of_measure),
+#         ObsHallConductivity(sim_params.num_of_measure, sim_params.Lt),
+#         ObsCurrentTimeLoop(sim_params.num_of_measure),
+#         ObsCurrentSpaceLoop(sim_params.num_of_measure),
+#         ObsCurrentLoopFT(sim_params.num_of_measure, sim_params.Lt),
+#         ObsGreenVillainTime(sim_params.num_of_measure, sim_params.Lt),
+#         ObsGreenVillainSpace(sim_params.num_of_measure, sim_params.L),
+#         ObsCompressVillain(sim_params.num_of_measure),
+#         ObsCurrentSpaceVillain(sim_params.num_of_measure),
+#         ObsCurrentTimeVillain(sim_params.num_of_measure),
+#         ObsCurrentVillainFT(sim_params.num_of_measure, sim_params.Lt),
+#         ObsStiffnessVillain(sim_params.num_of_measure),
+#         ObsStiffnessVillainFT(sim_params.num_of_measure, sim_params.Lt),
+#         ObsMagnitization(sim_params.num_of_measure),
+#       ],
+#     ),
+#     rng,
+#     fourier,
+#     Disorder(sim_params),
+#   )
+# end
+#
 function move_worm_head!(sim::Sim)
   """Implement the classical worm algorithm"""
   closed = (sim.lat.head == sim.lat.tail)
@@ -93,7 +142,6 @@ function move_worm_head!(sim::Sim)
   end
   shift_worm!(sim.worm_data, sim.lat, sim.sim_params, sim.disorder)
 end
-
 
 function update_worm!(sim::Sim)
   for _ = 1:(3*sim.sim_params.L^3)
