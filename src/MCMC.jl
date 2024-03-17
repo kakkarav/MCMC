@@ -1,26 +1,26 @@
 module MCMC
 
 # Include parameter definitions and simulation parameters
-include("parameters/Defs.jl")
-include("parameters/SimParameters.jl")
+include("parameters/defs.jl")
+include("parameters/simParameters.jl")
 
 using .Defs, .SimParameters, Statistics, Random
 
 # Include lattice data and lattice calculus
 include("lattices/latticedata.jl")
 include("lattices/disorderdata.jl")
-include("lattices/LatticeCalculus.jl")
+include("lattices/latticeCalculus.jl")
 
 # Include measurement and update modules
-include("measurements/Measurements.jl")
-include("measurements/ObservablesScalar.jl")
-include("measurements/ObservablesList.jl")
-include("updates/UpdateAngle.jl")
-include("updates/UpdateP.jl")
-include("updates/UpdateJ.jl")
-include("updates/UpdateFluctuate.jl")
-include("updates/UpdateBinding.jl")
-include("updates/UpdateCustom.jl")
+include("measurements/measurements.jl")
+include("measurements/observablesScalar.jl")
+include("measurements/observablesList.jl")
+include("updates/updateAngle.jl")
+include("updates/updateP.jl")
+include("updates/updateJ.jl")
+include("updates/updateFluctuate.jl")
+include("updates/updateBinding.jl")
+include("updates/updateCustom.jl")
 
 
 
