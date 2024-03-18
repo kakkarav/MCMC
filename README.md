@@ -15,6 +15,11 @@ $$ S = \sum_{\textbf{r}} \frac{1}{2 \lambda_1} \bigg|\textbf{J}(\textbf{r}) - \e
 ```
 where $\textbf{J}$ is a loop bond variable, $\theta$ is an angle variable, and $\textbf{p}$ is an integer-valued gauge field.
 
+The simulation also implements the measurement of thermodynamic properties used to classify the phase of the system, such as superfluid stiffness, compressibility, transverse Hall conductivity, Green's functions, magnetization, and other relevant quantities.
+
+Note that the simulation will only return raw data, which requires post-processing to obtain the physical observables.
+
+
 ## Installation
 
 The dependencies can be installed by going into the root directory of the project and run the following command:
