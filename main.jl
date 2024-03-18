@@ -3,9 +3,9 @@ using .MCMC
 
 function main(params_dict::Dict{String,Real})
   params = MCMC.SimParameters.SimParams(params_dict)
-  println("Initializing...")
+  println("Initializing the lattice...")
   sim = MCMC.Sim(params)
-  println("Thermalizing...")
+  println("Thermalizing the lattice...")
   MCMC.thermalize!(sim)
   println("Running...")
   MCMC.run!(sim)

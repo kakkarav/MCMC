@@ -1,3 +1,4 @@
+#The lattice state
 mutable struct Lattice
 	#angle and P variable of Villain model
 	angle::Array{Float64, NDIMS}

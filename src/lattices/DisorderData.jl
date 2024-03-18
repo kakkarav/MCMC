@@ -11,7 +11,7 @@ struct Disorder
 	sum_loop_bond_inverse::Array{Float64, 1}
 
 	function Disorder(sim_params::SimParams)
-		rng = Random.Xoshiro(rand(UInt64))
+		rng = Random.Xoshiro(sim_params.seed)
 		dims = sim_params.L * ones(Int64, NDIMS - 1)
 		chemical_potential_disorder = rand(dims...)
 		chemical_potential = (chemical_potential_disorder * 2.0 .- 1) * sim_params.chem_disorder .+ sim_params.chem_potential
